@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>melfa_driver</name>
+  <version>0.0.0</version>
+  <description>The melfa_driver package</description>
+  <author email="7675t@opensource-robotics.tokyo.jp">Ryosuke Tajima</author>
+  <maintainer email="dev@opensource-robotics.tokyo.jp">Tokyo Opensource Robotics Kyokai (TORK) Developer Team</maintainer>
+
+  <license>Apache License 2.0</license>
+
+  <url type="website">http://wiki.ros.org/melfa_driver</url>
+  <url type="repository">https://github.com/tork-a/melfa_ros</url>
+  <url type="bugtracker">https://github.com/tork-a/melfa_ros/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+
+  <export></export>
+  
+</package>

@@ -1,0 +1,76 @@
+joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+joint1_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint1
+
+joint2_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint2
+
+joint3_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint3
+
+joint4_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint4
+
+joint5_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint5
+
+joint6_position_controller:
+    type: position_controllers/JointPositionController
+    publish_rate: 50
+    base_frame_id: base_link
+    joint : joint6
+
+joint_trajectory_controller:
+    type: position_controllers/JointTrajectoryController
+    joints:
+      - joint1
+      - joint2
+      - joint3
+      - joint4
+      - joint5
+      - joint6
+    constraints:
+      goal_time: 2.0                   # Defaults to zero
+      stopped_velocity_tolerance: 0.1 # Defaults to 0.01
+      joint1:
+        trajectory: 0
+        goal: 0.2
+      joint2:
+        trajectory: 0
+        goal: 0.2
+      joint3:
+        trajectory: 0
+        goal: 0.2
+      joint4:
+        trajectory: 0
+        goal: 0.2
+      joint5:
+        trajectory: 0
+        goal: 0.2
+      joint6:
+        trajectory: 0
+        goal: 0.2
+
+    state_publish_rate:  50 # Defaults to 50
+    action_monitor_rate: 20 # Defaults to 20
+    #hold_trajectory_duration: 0 # Defaults to 0.5
+
+
