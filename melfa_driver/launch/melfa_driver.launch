@@ -1,0 +1,29 @@
+<launch>
+  <!-- Start MELFA driver -->
+  <node name="melfa_driver" pkg="melfa_driver" type="melfa_driver_node">
+    <param name="ip_address" value="192.168.0.23"/>
+  </node>
+
+  <!-- Load robot description -->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find tra1_description)/urdf/tra1.xacro'" />
+
+  <!-- Load joint controller configurations -->
+  <rosparam file="$(find melfa_driver)/config/controller.yaml" command="load"/>
+
+  <!-- Load the position controller -->
+  <node if="false" name="controller_spawner"
+	pkg="controller_manager" type="spawner" respawn="false"
+	args="joint_state_controller
+	      joint1_position_controller
+	      joint2_position_controller
+	      joint3_position_controller
+	      joint4_position_controller
+	      joint5_position_controller
+	      joint6_position_controller"/>
+
+  <node name="controller_spawner" pkg="controller_manager"
+	type="spawner"	respawn="false"
+	args="joint_state_controller
+	      joint_trajectory_controller"/>
+
+</launch>
