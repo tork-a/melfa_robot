@@ -22,9 +22,13 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 add_executable(melfa_driver_node
   src/melfa_driver_node.cpp src/melfa_hardware_interface.cpp)
 
+add_executable(melfa_loopback_node src/melfa_loopback_node.cpp)
+
 target_link_libraries(melfa_driver_node ${catkin_LIBRARIES})
 
-install(TARGETS melfa_driver_node
+target_link_libraries(melfa_loopback_node ${catkin_LIBRARIES})
+
+install(TARGETS melfa_driver_node melfa_loopback_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

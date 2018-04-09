@@ -1,14 +1,27 @@
 #include "melfa_driver/melfa_hardware_interface.h"
 
-MelfaHW::MelfaHW (void)
+MelfaHW::MelfaHW ()
 {
   // initialize UDP socket
-  socket_ = socket (AF_INET, SOCK_DGRAM, 0);
-  if (socket_ < 0)
+  for (;;)
   {
-    ROS_ERROR ("Cannot open socket");
-    exit (1);
+    socket_ = socket (AF_INET, SOCK_DGRAM, 0);
+    if (socket_ > 0)
+    {
+      break;
+    }
+    ROS_ERROR ("Waiting for opening socket");
+    sleep(1);
   }
+  ROS_INFO ("Socket opened");
+
+  // set IP and port
+  ros::param::param<std::string>("robot_ip", robot_ip_, "127.0.0.1");
+
+  addr_.sin_family = AF_INET;
+  addr_.sin_port = htons (10000);
+  addr_.sin_addr.s_addr = inet_addr (robot_ip_.c_str());
+
   counter_ = 0;
   memset (&send_buff_, 0, sizeof (send_buff_));
   memset (&recv_buff_, 0, sizeof (recv_buff_));
@@ -47,10 +60,6 @@ void MelfaHW::write_first (void)
   send_buff_.IoData = 0;
   send_buff_.CCount = 0;
 
-  addr_.sin_family = AF_INET;
-  addr_.sin_port = htons (10000);
-  addr_.sin_addr.s_addr = inet_addr ("192.168.0.23");
-
   int size = sendto (socket_, (char *) &send_buff_, sizeof (send_buff_), 0, (struct sockaddr *) &addr_, sizeof (addr_));
   if (size != sizeof (send_buff_))
   {
@@ -82,10 +91,6 @@ void MelfaHW::write (void)
   send_buff_.dat.jnt.j5 = cmd[4];
   send_buff_.dat.jnt.j6 = cmd[5];
   send_buff_.CCount = counter_;
-
-  addr_.sin_family = AF_INET;
-  addr_.sin_port = htons (10000);
-  addr_.sin_addr.s_addr = inet_addr ("192.168.0.23");
 
   int size = sendto (socket_, (char *) &send_buff_, sizeof (send_buff_), 0, (struct sockaddr *) &addr_, sizeof (addr_));
   if (size != sizeof (send_buff_))

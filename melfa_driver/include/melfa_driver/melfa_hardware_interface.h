@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <ros/ros.h>
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
@@ -18,6 +19,7 @@ public:
   void write_first (void);
 
 private:
+  std::string robot_ip_;
   int socket_;
   struct sockaddr_in addr_;
 
