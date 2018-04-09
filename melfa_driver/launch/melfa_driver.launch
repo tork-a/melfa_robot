@@ -8,7 +8,8 @@
   </node>
 
   <!-- Start loopback node -->
-  <node name="melfa_loopback" pkg="melfa_driver" type="melfa_loopback_node">
+  <node if="$(arg loopback)"
+    name="melfa_loopback" pkg="melfa_driver" type="melfa_loopback_node">
   </node>
 
   <!-- Load robot description -->

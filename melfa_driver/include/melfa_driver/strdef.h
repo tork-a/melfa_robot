@@ -3,6 +3,7 @@
 // 通信パケットデータ構造体定義ヘッダーファイル
 //***************************************************************
 // strdef.h
+#include <stdint.h>
 #define VER_H7
 /********************************************************/
 /* 関節座標系 (未使用軸は0にします) */
@@ -36,8 +37,8 @@ typedef struct{
 } WORLD;
 typedef struct{
   WORLD w;
-  unsigned int sflg1; // 構造フラグ1
-  unsigned int sflg2; // 構造フラグ2
+  uint32_t sflg1; // 構造フラグ1
+  uint32_t sflg2; // 構造フラグ2
 } POSE;
 
 /********************************************************/
@@ -45,25 +46,25 @@ typedef struct{
 /* 各関節をモータパルス値で表した座標です */
 /********************************************************/
 typedef struct{
-  long p1; // モータ1軸
-  long p2; // モータ2軸
-  long p3; // モータ3軸
-  long p4; // モータ4軸
-  long p5; // モータ5軸
-  long p6; // モータ6軸
-  long p7; // 付加軸1(モータ7軸)
-  long p8; // 付加軸2(モータ8軸)
+  int32_t p1; // モータ1軸
+  int32_t p2; // モータ2軸
+  int32_t p3; // モータ3軸
+  int32_t p4; // モータ4軸
+  int32_t p5; // モータ5軸
+  int32_t p6; // モータ6軸
+  int32_t p7; // 付加軸1(モータ7軸)
+  int32_t p8; // 付加軸2(モータ8軸)
 } PULSE;
 /****************************************/
 /* リアルタイム機能通信データパケット */
 /****************************************/
 typedef struct enet_rtcmd_str {
-  unsigned short Command; // コマンド
+  uint16_t Command; // コマンド
 #define MXT_CMD_NULL 0 // リアルタイム外部指令なし
 #define MXT_CMD_MOVE 1 // リアルタイム外部指令あり
 #define MXT_CMD_END 255 // リアルタイム外部指令終了
-  unsigned short SendType; // 指令データタイプ指定
-  unsigned short RecvType; // モニタデータタイプ指定
+  uint16_t SendType; // 指令データタイプ指定
+  uint16_t RecvType; // モニタデータタイプ指定
 
   //////////// 指令またはモニタデータタイプ //
 
@@ -90,37 +91,37 @@ typedef struct enet_rtcmd_str {
     POSE pos; // 直交タイプ[mm/rad]
     JOINT jnt; // 関節タイプ[rad]
     PULSE pls; // パルスタイプ[pls]
-    long lng[8]; // 整数タイプ[%/無単位など]
+    int32_t lng[8]; // 整数タイプ[%/無単位など]
   } dat;
-  unsigned short SendIOType; // 送信入出力信号データ指定
-  unsigned short RecvIOType; // 返信入出力信号データ指定
+  uint16_t SendIOType; // 送信入出力信号データ指定
+  uint16_t RecvIOType; // 返信入出力信号データ指定
 #define MXT_IO_NULL 0 // データなし
 #define MXT_IO_OUT 1 // 出力信号
 #define MXT_IO_IN 2 // 入力信号
-  unsigned short BitTop; // 先頭ビット番号
-  unsigned short BitMask; // 送信用ビットマスクパターン指定(0x0001-0xffff)
-  unsigned short IoData; // 入出力信号データ(0x0000-0xffff)
-  unsigned short TCount; // タイムアウト時間のカウンタ値
-  unsigned long CCount; // 通信データ用のカウンタ値
-  unsigned short RecvType1; // 返信データタイプ指定1
+  uint16_t BitTop; // 先頭ビット番号
+  uint16_t BitMask; // 送信用ビットマスクパターン指定(0x0001-0xffff)
+  uint16_t IoData; // 入出力信号データ(0x0000-0xffff)
+  uint16_t TCount; // タイムアウト時間のカウンタ値
+  uint32_t CCount; // 通信データ用のカウンタ値
+  uint16_t RecvType1; // 返信データタイプ指定1
   union rtdata1 { // モニタデータ1
     POSE pos1; // 直交タイプ[mm/rad]
     JOINT jnt1; // 関節タイプ[rad]
     PULSE pls1; // パルスタイプ[pls]
-    long lng1[8]; // 整数タイプ[%/無単位など]
+    int32_t lng1[8]; // 整数タイプ[%/無単位など]
   } dat1;
-  unsigned short RecvType2; // 返信データタイプ指定2
+  uint16_t RecvType2; // 返信データタイプ指定2
   union rtdata2 { // モニタデータ2
     POSE pos2; // 直交タイプ[mm/rad]
     JOINT jnt2; // 関節タイプ[rad]
     PULSE pls2; // パルスタイプ[pls]または整数タイプ[%/無単位など]
-    long lng2[8]; // 整数タイプ[%/無単位など]
+    int32_t lng2[8]; // 整数タイプ[%/無単位など]
   } dat2;
-  unsigned short RecvType3; // 返信データタイプ指定3
+  uint16_t RecvType3; // 返信データタイプ指定3
   union rtdata3 { // モニタデータ3
     POSE pos3; // 直交タイプ[mm/rad]
     JOINT jnt3; // 関節タイプ[rad]
     PULSE pls3; // パルスタイプ[pls]または整数タイプ[%/無単位など]
-    long lng3[8]; // 整数タイプ[%/無単位など]
+    int32_t lng3[8]; // 整数タイプ[%/無単位など]
   } dat3;
 } MXTCMD;
