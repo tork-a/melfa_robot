@@ -28,7 +28,7 @@ public:
     socket_ = socket(AF_INET, SOCK_DGRAM, 0);
     addr_.sin_family = AF_INET;
     addr_.sin_port = htons(10000);
-    addr_.sin_addr.s_addr = INADDR_ANY;
+    addr_.sin_addr.s_addr = inet_addr ("127.0.0.1");
 
     bind(socket_, (struct sockaddr *)&addr_, sizeof(addr_));
   }
@@ -85,8 +85,7 @@ public:
                      0, (struct sockaddr *) &recv_addr, sizeof (recv_addr));
       if (size != sizeof (send_buff_))
       {
-        ROS_ERROR ("Connot send packet.");
-        exit (1);
+        ROS_WARN ("Failed to send packet.");
       }
     }
   }
