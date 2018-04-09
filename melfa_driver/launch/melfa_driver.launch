@@ -1,5 +1,5 @@
 <launch>
-  <arg name="loobpack" default="false"/>
+  <arg name="loopback" default="false"/>
   <arg name="robot_ip" default="127.0.0.1"/>
 
   <!-- Start MELFA driver -->

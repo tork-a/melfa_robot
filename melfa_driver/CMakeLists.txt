@@ -32,10 +32,27 @@ install(TARGETS melfa_driver_node melfa_loopback_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+install(DIRECTORY config launch test
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
+
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
-foreach(dir launch)
-   install(DIRECTORY ${dir}/
-      DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
-endforeach(dir)
+if(CATKIN_ENABLE_TESTING)
+  find_package(roslint REQUIRED)
+  set(ROSLINT_CPP_OPTS "--filter=-runtime/references,-runtime/int")
+  roslint_cpp(src/jw_base_driver.cpp src/jw_base_node.cpp)
+  set(ROSLINT_PYTHON_OPTS "--max-line-length=180")
+  roslint_python(test/test_joint_trajectory_controller.py)
+  add_dependencies(tests roslint)
+
+  find_package(roslaunch REQUIRED)
+  find_package(rostest REQUIRED)
+  file(GLOB LAUNCH_FILES launch/*.launch)
+  foreach(LAUNCH_FILE ${LAUNCH_FILES})
+    message(STATUS "Testing ${LAUNCH_FILE}")
+    roslaunch_add_file_check(${LAUNCH_FILE})
+  endforeach()
+
+  add_rostest(test/joint_trajectory_controller.test)
+endif()
