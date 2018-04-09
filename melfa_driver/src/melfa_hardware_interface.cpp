@@ -3,18 +3,12 @@
 MelfaHW::MelfaHW ()
 {
   // initialize UDP socket
-  for (;;)
+  socket_ = socket (AF_INET, SOCK_DGRAM, 0);
+  if (socket_ < 0)
   {
-    socket_ = socket (AF_INET, SOCK_DGRAM, 0);
-    if (socket_ > 0)
-    {
-      break;
-    }
-    ROS_ERROR ("Waiting for opening socket");
-    sleep(1);
+    ROS_ERROR ("Cannot open socket");
+    exit(1);
   }
-  ROS_INFO ("Socket opened");
-
   // set IP and port
   ros::param::param<std::string>("~robot_ip", robot_ip_, "127.0.0.1");
 
@@ -145,7 +139,7 @@ void MelfaHW::read (void)
   }
   else
   {
-    ROS_ERROR ("recvfrom failed");
+    ROS_WARN ("Failed to recvive packet.");
   }
 }
 
