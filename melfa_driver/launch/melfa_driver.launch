@@ -1,7 +1,14 @@
 <launch>
+  <arg name="loobpack" default="false"/>
+  <arg name="robot_ip" default="127.0.0.1"/>
+
   <!-- Start MELFA driver -->
   <node name="melfa_driver" pkg="melfa_driver" type="melfa_driver_node">
-    <param name="ip_address" value="192.168.0.23"/>
+    <param name="robot_ip" value="$(arg robot_ip)"/>
+  </node>
+
+  <!-- Start loopback node -->
+  <node name="melfa_loopback" pkg="melfa_driver" type="melfa_loopback_node">
   </node>
 
   <!-- Load robot description -->
@@ -21,7 +28,7 @@
 	      joint5_position_controller
 	      joint6_position_controller"/>
 
-  <node name="controller_spawner" pkg="controller_manager"
+  <node if="true" name="controller_spawner" pkg="controller_manager"
 	type="spawner"	respawn="false"
 	args="joint_state_controller
 	      joint_trajectory_controller"/>

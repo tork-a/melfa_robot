@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rostopic pub /position_trajectory_controller/command trajectory_msgs/JointTrajectory "header:
+rostopic pub /joint_trajectory_controller/command trajectory_msgs/JointTrajectory "header:
   seq: 0
   stamp:
     secs: 0
