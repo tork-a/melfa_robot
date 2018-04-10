@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<!-- Copyright (C) 2018, Tokyo Opensource Robotics Kyokai Association -->
+<robot name="rv7fl" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Constants for robot dimensions -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="RIGHT_ANGLE" value="1.570796327"/>
+  <xacro:property name="MODEL_RATIO" value="0.001"/>
+
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find melfa_description)/urdf/materials.xacro" />
+
+  <!-- Constants for joint position -->
+  <xacro:property name="BASE_J1X" value="0.000"/>
+  <xacro:property name="BASE_J1Y" value="0.000"/>
+  <xacro:property name="BASE_J1Z" value="0.000"/>
+
+  <xacro:property name="J1X_J2X" value="0.000"/>
+  <xacro:property name="J1Y_J2Y" value="0.000"/>
+  <xacro:property name="J1Z_J2Z" value="0.400"/>
+
+  <xacro:property name="J2X_J3X" value="0.000"/>
+  <xacro:property name="J2Y_J3Y" value="0.000"/>
+  <xacro:property name="J2Z_J3Z" value="0.435"/>
+
+  <xacro:property name="J3X_J4X" value="0.000"/>
+  <xacro:property name="J3Y_J4Y" value="0.000"/>
+  <xacro:property name="J3Z_J4Z" value="0.000"/>
+
+  <xacro:property name="J4X_J5X" value="0.000"/>
+  <xacro:property name="J4Y_J5Y" value="0.000"/>
+  <xacro:property name="J4Z_J5Z" value="0.470"/>
+
+  <xacro:property name="J5X_J6X" value="0.000"/>
+  <xacro:property name="J5Y_J6Y" value="0.000"/>
+  <xacro:property name="J5Z_J6Z" value="0.000"/>
+
+  <link name="base_link">
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 0 0"/>
+        <geometry>
+            <mesh filename="package://melfa_description/meshe/B.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+        </geometry>
+        <material name="grey"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint1 -->
+  <joint name="joint1" type="revolute">
+    <parent link="base_link"/>
+    <child link="link_j1"/>
+    <origin xyz="${BASE_J1X} ${BASE_J1Y} ${BASE_J1Z}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+  </joint>
+  <!-- ==================================================================link1 -->
+  <link name="link_j1">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J1.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint2 -->
+  <joint name="joint2" type="revolute">
+    <parent link="link_j1"/>
+    <child link="link_j2"/>
+    <origin xyz="${J1X_J2X-BASE_J1X} ${J1Y_J2Y-BASE_J1Y} ${J1Z_J2Z-BASE_J1Z}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+  </joint>
+  <!-- ==================================================================link2 -->
+  <link name="link_j2">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J2.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint3 -->
+    <joint name="joint3" type="revolute">
+      <parent link="link_j2"/>
+      <child link="link_j3"/>
+      <origin xyz="${J2X_J3X-J1X_J2X} ${J2Y_J3Y-J1Y_J2Y} ${J2Z_J3Z-J1Z_J2Z}" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <dynamics damping="0.7"/>
+      <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    </joint>
+  <!-- ==================================================================link3 -->
+  <link name="link_j3">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J3.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint4 -->
+  <joint name="joint4" type="revolute">
+    <parent link="link_j3"/>
+    <child link="link_j4"/>
+    <origin xyz="${J3X_J4X-J2X_J3X} ${J3Y_J4Y-J2Y_J3Y} ${J3Z_J4Z-J2Z_J3Z}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+  </joint>
+  <!-- ==================================================================link4 -->
+  <link name="link_j4">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J4.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint5 -->
+  <joint name="joint5" type="revolute">
+    <parent link="link_j4"/>
+    <child link="link_j5"/>
+    <origin xyz="${J4X_J5X-J3X_J4X} ${J4Y_J5Y-J3Y_J4Y} ${J4Z_J5Z-J3Z_J4Z}" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <dynamics damping="0.7"/>
+    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+  </joint>
+  <!-- ==================================================================link5 -->
+  <link name="link_j5">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J5.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++joint6 -->
+  <joint name="joint6" type="revolute">
+    <parent link="link_j5"/>
+    <child link="link_j6"/>
+    <origin xyz="${J5X_J6X-J4X_J5X} ${J5Y_J6Y-J4Y_J5Y} ${J5Z_J6Z-J4Z_J5Z}" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <dynamics damping="0.7"/>
+    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+  </joint>
+  <!-- ==================================================================link6 -->
+  <link name="link_j6">
+    <visual>
+      <origin xyz="0 0 0" rpy="${RIGHT_ANGLE} 0 0"/>
+      <geometry>
+        <mesh filename="package://tra1_description/meshes/J6.STL" scale="${MODEL_RATIO} ${MODEL_RATIO} ${MODEL_RATIO}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+</robot>
