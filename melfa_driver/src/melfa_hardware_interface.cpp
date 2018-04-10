@@ -12,6 +12,8 @@ MelfaHW::MelfaHW ()
   // set IP and port
   ros::param::param<std::string>("~robot_ip", robot_ip_, "127.0.0.1");
 
+  ROS_INFO("robot_ip: %s", robot_ip_.c_str());
+  
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons (10000);
   addr_.sin_addr.s_addr = inet_addr (robot_ip_.c_str());
