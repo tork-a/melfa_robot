@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot>
+<!--
+Copyright (C) 2017, Tokyo Opensource Robotics Kyokai Association
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="blue">
+    <color rgba="0.0 0.0 0.8 1.0"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0.0 0.8 0.0 1.0"/>
+  </material>
+
+  <material name="grey">
+    <color rgba="0.2 0.2 0.2 1.0"/>
+  </material>
+
+  <material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+  </material>
+
+  <material name="brown">
+    <color rgba="${222/255} ${207/255} ${195/255} 1.0"/>
+  </material>
+
+  <material name="red">
+    <color rgba="0.8 0.0 0.0 1.0"/>
+  </material>
+
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+
+</robot>
