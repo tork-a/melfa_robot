@@ -1,48 +1,15 @@
 <?xml version="1.0"?>
 <!-- Copyright (C) 2018, Tokyo Opensource Robotics Kyokai Association -->
 <robot name="rv7fl" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-  <!-- Constants for robot dimensions -->
-  <xacro:property name="PI" value="3.1415926535897931"/>
-  <xacro:property name="RIGHT_ANGLE" value="1.570796327"/>
-  <xacro:property name="MODEL_RATIO" value="0.001"/>
-
-  <!-- Import Rviz colors -->
   <xacro:include filename="$(find melfa_description)/urdf/materials.xacro" />
-
-  <!-- Constants for joint position -->
-  <xacro:property name="BASE_J1X" value="0.000"/>
-  <xacro:property name="BASE_J1Y" value="0.000"/>
-  <xacro:property name="BASE_J1Z" value="0.000"/>
-
-  <xacro:property name="J1X_J2X" value="0.000"/>
-  <xacro:property name="J1Y_J2Y" value="0.000"/>
-  <xacro:property name="J1Z_J2Z" value="0.400"/>
-
-  <xacro:property name="J2X_J3X" value="0.000"/>
-  <xacro:property name="J2Y_J3Y" value="0.000"/>
-  <xacro:property name="J2Z_J3Z" value="0.435"/>
-
-  <xacro:property name="J3X_J4X" value="0.000"/>
-  <xacro:property name="J3Y_J4Y" value="0.000"/>
-  <xacro:property name="J3Z_J4Z" value="0.000"/>
-
-  <xacro:property name="J4X_J5X" value="0.000"/>
-  <xacro:property name="J4Y_J5Y" value="0.000"/>
-  <xacro:property name="J4Z_J5Z" value="0.470"/>
-
-  <xacro:property name="J5X_J6X" value="0.000"/>
-  <xacro:property name="J5Y_J6Y" value="0.000"/>
-  <xacro:property name="J5Z_J6Z" value="0.000"/>
-
   <link name="base_link">
     <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
       <axis xyz="0 0 0"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV-7F_BASE_01.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white1"/>
     </visual>
   </link>
 
@@ -57,11 +24,11 @@
 
   <link name="link1">
     <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV-7F_SHOLDER_02.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white2"/>
     </visual>
   </link>
 
@@ -76,11 +43,11 @@
 
   <link name="link2">
     <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV_7FL_NO1ARM_03.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white3"/>
     </visual>
   </link>
 
@@ -90,23 +57,23 @@
     <origin xyz="0 0 0.435" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="2.18" lower="0.00" effort="10" velocity="1" />
   </joint>
 
   <link name="link3">
     <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} ${pi/2} 0"/>
+      <origin xyz="0 0 0" rpy="0 ${pi/2} ${pi/2}"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV-7F_ELBOW_04.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white1"/>
     </visual>
   </link>
 
   <joint name="joint4" type="revolute">
     <parent link="link3"/>
     <child link="link4"/>
-    <origin xyz="0.05 0 0.47" rpy="0 0 0"/>
+    <origin xyz="-0.05 0 0.47" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.7"/>
     <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
@@ -114,11 +81,11 @@
 
   <link name="link4">
     <visual>
-      <origin xyz="0 0 0" rpy="${-pi/2} ${pi/2} 0"/>
+      <origin xyz="0 0 0" rpy="0 ${pi/2} ${-pi/2}"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV_7FL_NO2ARM_05.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white2"/>
     </visual>
   </link>
 
@@ -133,11 +100,11 @@
 
   <link name="link5">
     <visual>
-      <origin xyz="0 0 0" rpy="${-pi/2} ${pi/2} 0"/>
+      <origin xyz="0 0 0" rpy="0 ${pi/2} ${-pi/2}"/>
       <geometry>
         <mesh filename="package://melfa_description/mesh/RV-4F_WRIST_06.stl"/>
       </geometry>
-      <material name="grey"/>
+      <material name="white3"/>
     </visual>
   </link>
 
