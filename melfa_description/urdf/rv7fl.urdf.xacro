@@ -19,7 +19,7 @@
     <origin xyz="0 0 0.4" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="${240*pi/180}" lower="${-240*pi/180}" effort="10" velocity="${288*pi/180}" />
   </joint>
 
   <link name="link1">
@@ -38,7 +38,7 @@
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="${130*pi/180}" lower="${-110*pi/180}" effort="10" velocity="${321*pi/180}" />
   </joint>
 
   <link name="link2">
@@ -57,7 +57,7 @@
     <origin xyz="0 0 0.435" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="0.00" effort="10" velocity="1" />
+    <limit upper="${162*pi/180}" lower="0.00" effort="10" velocity="${360*pi/180}" />
   </joint>
 
   <link name="link3">
@@ -76,7 +76,7 @@
     <origin xyz="-0.05 0 0.47" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="${200*pi/180}" lower="${-200*pi/180}" effort="10" velocity="${337*pi/180}" />
   </joint>
 
   <link name="link4">
@@ -95,7 +95,7 @@
     <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="${120*pi/180}" lower="${-120*pi/180}" effort="10" velocity="${450*pi/180}" />
   </joint>
 
   <link name="link5">
@@ -111,10 +111,10 @@
   <joint name="joint6" type="revolute">
     <parent link="link5"/>
     <child link="link6"/>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0.085" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <dynamics damping="0.7"/>
-    <limit upper="2.18" lower="-2.18" effort="10" velocity="1" />
+    <limit upper="${360*pi/180}" lower="${-360*pi/180}" effort="10" velocity="${720*pi/180}" />
   </joint>
 
   <link name="link6"/>
