@@ -4,8 +4,8 @@ project(melfa_driver)
 add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
-  hardware_interface
   controller_manager
+  hardware_interface
   roscpp)
 
 find_package(Boost REQUIRED COMPONENTS system thread)
@@ -44,7 +44,7 @@ if(CATKIN_ENABLE_TESTING)
   # roslint_cpp(src/melfa_hardware_interface.cpp src/melfa_driver_node.cpp src/melfa_loopback_node.cpp)
   set(ROSLINT_PYTHON_OPTS "--max-line-length=180")
   # roslint_python(test/test_joint_trajectory_controller.py)
-  add_dependencies(tests roslint)
+  # add_dependencies(tests roslint)
 
   find_package(roslaunch REQUIRED)
   find_package(rostest REQUIRED)

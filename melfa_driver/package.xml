@@ -13,7 +13,13 @@
   <url type="bugtracker">https://github.com/tork-a/melfa_ros/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <depend>controller_manager</depend>
+  <depend>hardware_interface</depend>
   <depend>roscpp</depend>
+  <exec_depend>joint_state_controller</exec_depend>
+  <exec_depend>joint_trajectory_controller</exec_depend>
+  <exec_depend>position_controllers</exec_depend>
+  <test_depend>roslint</test_depend>
 
   <export></export>
   
