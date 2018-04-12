@@ -8,6 +8,7 @@ from control_msgs.msg import (
     FollowJointTrajectoryActionGoal)
 import rospy
 import rostest
+import rosnode
 from sensor_msgs.msg import JointState
 from trajectory_msgs.msg import JointTrajectory
 import time
@@ -18,6 +19,18 @@ class TestJointTrajectoryController(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         rospy.init_node('test_joint_trajectory_controller_node')
+
+        # wait 10s for all nodes is up
+        for i in range(10):
+            nodes = rosnode.get_node_names()
+            check = [x in nodes for x in ['/melfa_driver',
+                                          '/melfa_loopback',
+                                          '/robot_state_publisher',
+                                          '/controller_spawner']]
+            if (False not in check):
+                return
+            time.sleep(1.0)
+        self.assertTrue(False)
 
     def setUp(self):
         self.joint_states_list = []
