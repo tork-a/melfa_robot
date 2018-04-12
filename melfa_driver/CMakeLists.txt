@@ -41,9 +41,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
 if(CATKIN_ENABLE_TESTING)
   find_package(roslint REQUIRED)
   set(ROSLINT_CPP_OPTS "--filter=-runtime/references,-runtime/int")
-  roslint_cpp(src/jw_base_driver.cpp src/jw_base_node.cpp)
+  # roslint_cpp(src/melfa_hardware_interface.cpp src/melfa_driver_node.cpp src/melfa_loopback_node.cpp)
   set(ROSLINT_PYTHON_OPTS "--max-line-length=180")
-  roslint_python(test/test_joint_trajectory_controller.py)
+  # roslint_python(test/test_joint_trajectory_controller.py)
   add_dependencies(tests roslint)
 
   find_package(roslaunch REQUIRED)
