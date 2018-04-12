@@ -1,3 +1,5 @@
+# https://github.com/ros-infrastructure/ros_buildfarm/blob/master/doc/jobs/devel_jobs.rst
+# https://github.com/ros-infrastructure/ros_buildfarm/blob/master/doc/jobs/prerelease_jobs.rst
 # while this doesn't require sudo we don't want to run within a Docker container
 sudo: true
 dist: trusty
@@ -7,10 +9,9 @@ python:
 env:
   global:
     - JOB_PATH=/tmp/devel_job
+    - ABORT_ON_TEST_FAILURE=1
   matrix:
-    - ROS_DISTRO_NAME=indigo OS_NAME=ubuntu OS_CODE_NAME=trusty ARCH=amd64
-    #- ROS_DISTRO_NAME=jade OS_NAME=ubuntu OS_CODE_NAME=trusty ARCH=amd64
-    #- ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=amd64
+    - ROS_DISTRO_NAME=kinetic OS_NAME=ubuntu OS_CODE_NAME=xenial ARCH=amd64
 install:
   # either install the latest released version of ros_buildfarm
   - pip install ros_buildfarm
@@ -24,12 +25,10 @@ install:
   # use the code already checked out by Travis
   - mkdir -p $JOB_PATH/catkin_workspace/src
   - cp -R $TRAVIS_BUILD_DIR $JOB_PATH/catkin_workspace/src/
-  # generate the script to run a devel job for that target and repo
-  - generate_devel_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml $ROS_DISTRO_NAME default $REPOSITORY_NAME $OS_NAME $OS_CODE_NAME $ARCH > $JOB_PATH/devel_job.sh
-  - cd $JOB_PATH
-  - cat devel_job.sh
+  # generate the script to run a pre-release job for that target and repo
+  - generate_prerelease_script.py https://raw.githubusercontent.com/ros-infrastructure/ros_buildfarm_config/production/index.yaml $ROS_DISTRO_NAME default $OS_NAME $OS_CODE_NAME $ARCH  --output-dir $JOB_PATH
   # run the actual job which involves Docker
-  - sh devel_job.sh -y
+  - cd $JOB_PATH; sh ./prerelease.sh -y
 script:
   # get summary of test results
   - /tmp/catkin/bin/catkin_test_results $JOB_PATH/catkin_workspace/test_results --all
