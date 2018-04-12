@@ -20,7 +20,7 @@
   </node>
 
   <!-- Load robot description -->
-  <param name="robot_description" command="$(find xacro)/xacro '$(find melfa_description)/urdf/rv7fl.urdf.xacro'" />
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find melfa_description)/urdf/rv7fl.urdf.xacro'" />
 
   <!-- Load joint controller configurations -->
   <rosparam file="$(find melfa_driver)/config/controller.yaml" command="load"/>
