@@ -20,18 +20,6 @@ class TestJointTrajectoryController(unittest.TestCase):
     def setUpClass(cls):
         rospy.init_node('test_joint_trajectory_controller_node')
 
-        # wait 10s for all nodes is up
-        for i in range(10):
-            nodes = rosnode.get_node_names()
-            check = [x in nodes for x in ['/melfa_driver',
-                                          '/melfa_loopback',
-                                          '/robot_state_publisher',
-                                          '/controller_spawner']]
-            if (False not in check):
-                return
-            time.sleep(1.0)
-        self.assertTrue(False)
-
     def setUp(self):
         self.joint_states_list = []
 
@@ -52,7 +40,10 @@ class TestJointTrajectoryController(unittest.TestCase):
         self.joint_states_list.append(msg)
         
     def test_joint_states(self):
-        time.sleep(1.0)
+        # try for 30 s
+        for i in range(30):
+            if not self.joint_states_list:
+                time.sleep(1.0)
         self.assertTrue(self.joint_states_list)
         
 if __name__ == '__main__':
