@@ -16,7 +16,11 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <ros/ros.h>
+#include <diagnostic_updater/diagnostic_updater.h>
+#include <diagnostic_updater/publisher.h>
 #include "melfa_driver/strdef.h"
+
+ros::Time g_time_now, g_time_old;
 
 class LoopbackNode
 {
@@ -119,6 +123,13 @@ public:
   }
 };
 
+void loop_diagnostic(diagnostic_updater::DiagnosticStatusWrapper &stat)
+{
+  double time_dif = (g_time_now - g_time_old).toSec();
+  stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Periodic time is normal");
+  stat.add ("Period", time_dif);
+}
+
 /**
  * @brief Main function
  */
@@ -128,6 +139,10 @@ int main (int argc, char **argv)
   ros::init (argc, argv, "melfa_loopback");
   ros::NodeHandle nh;
   LoopbackNode node;
+  
+  diagnostic_updater::Updater updater;
+  updater.setHardwareID("melfa_loopback");
+  updater.add("Loop updater", loop_diagnostic);
   
   // Parameters
   bool realtime;
@@ -156,6 +171,12 @@ int main (int argc, char **argv)
 
   while (ros::ok ())
   {
+    g_time_old = g_time_now;
+    g_time_now = ros::Time::now();
+
+    // Update diagnostics
+    updater.update();
+
     node.recv();
   }
   return 0;

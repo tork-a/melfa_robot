@@ -20,6 +20,7 @@
   <node if="$(arg loopback)" launch-prefix="$(arg launch_prefix)"
 	name="melfa_loopback" pkg="melfa_driver" type="melfa_loopback_node">
     <param name="realtime" value="$(arg realtime)"/>
+    <param name="diagnostic_period" value="0.1"/>
   </node>
 
   <!-- Load robot description -->

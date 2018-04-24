@@ -5,6 +5,7 @@ add_compile_options(-std=c++11)
 
 find_package(catkin REQUIRED COMPONENTS
   controller_manager
+  diagnostic_updater
   hardware_interface
   roscpp)
 
