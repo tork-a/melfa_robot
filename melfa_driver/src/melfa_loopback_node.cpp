@@ -3,7 +3,12 @@
  * 
  * Loopback node to test melfa_driver_node
  */
+#include <limits.h>
+#include <pthread.h>
+#include <sched.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/mman.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -122,8 +127,32 @@ int main (int argc, char **argv)
   // init ROS node
   ros::init (argc, argv, "melfa_loopback");
   ros::NodeHandle nh;
-
   LoopbackNode node;
+  
+  // Parameters
+  bool realtime;
+  ros::param::param<bool>("~realtime", realtime, false);
+  
+  // Setup realtime scheduler
+  if (realtime)
+  {
+    struct sched_param param;
+    memset(&param, 0, sizeof(param));
+    int policy = SCHED_FIFO;
+    param.sched_priority = sched_get_priority_max(policy);
+
+    ROS_WARN("Setting up Realtime scheduler");
+    if (sched_setscheduler(0, policy, &param) < 0) {
+      ROS_ERROR("sched_setscheduler: %s", strerror(errno));
+      ROS_ERROR("Please check you are using PREEMPT_RT kernel and set /etc/security/limits.conf");
+      exit (1);
+    }
+    if (mlockall(MCL_CURRENT|MCL_FUTURE) < 0)
+    {
+      ROS_ERROR("mlockall: %s", strerror(errno));
+      exit (1);
+    }  
+  }
 
   while (ros::ok ())
   {
