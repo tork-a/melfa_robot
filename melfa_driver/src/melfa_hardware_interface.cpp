@@ -114,6 +114,7 @@ void MelfaHW::read (void)
   {
     ROS_ERROR ("Cannot recieve packet");
   }
+  //ROS_INFO("time: %d [us]", time.tv_usec);
   if ((status > 0) && FD_ISSET (socket_, &fds))
   {
     int size = recvfrom (socket_, &recv_buff_, sizeof (recv_buff_), 0, NULL, NULL);
@@ -136,7 +137,7 @@ void MelfaHW::read (void)
         cmd[i] = pos[i];
       }
     }
-    ROS_INFO ("%f %f %f %f %f %f", joint->j1, joint->j2, joint->j3, joint->j4, joint->j5, joint->j6);
+    // ROS_INFO ("%f %f %f %f %f %f", joint->j1, joint->j2, joint->j3, joint->j4, joint->j5, joint->j6);
     counter_++;
   }
   else

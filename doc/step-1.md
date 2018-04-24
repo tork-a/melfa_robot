@@ -29,7 +29,7 @@ PCとする．
 シミュレータ上で，
 
 - ROSのコマンドでロボットの関節を関節角制御角にて動作させる
-- ROSのコマンドでロボットの現在の関節角度を表示する
+ROSのコマンドでロボットの現在の関節角度を表示する
 
 ロボット実機上で，
 
@@ -177,3 +177,77 @@ $ rqt -s rqt_joint_trajectory_controller/JointTrajectoryController
 中央のボタンを押すと緑色となり指令値の送信が開始される．スライダを動か
 すと，RT-ToolBoxのシミュレーション画面のロボットの対応する軸の角度が操
 作できる．
+
+## PREEMPTRT_RTカーネルによる実時間制御
+
+ROS側PCの負荷が高い場合，パケット送出が間に合わなくて実機の軌道が連続
+にならない場合がある（はず）．解決には，ROS側PCに実時間処理が必要です．
+
+`PREEMPT_RT`パッチをカーネルに当てて，カーネルをコンパイルし直します．
+カーネルバージョン4.14.34で確認しました．
+
+https://wiki.linuxfoundation.org/realtime/documentation/howto/applications/preemptrt_setup
+
+```
+$ wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.14.34.tar.xz
+$ wget https://www.kernel.org/pub/linux/kernel/projects/rt/4.14/patch-4.14.34-rt27.patch.xz
+```
+
+```
+$ xz -cd linux-4.14.34.tar.xz | tar xvf -
+$ cd linux-4.14.34
+$ xzcat ../patch-4.14.34-rt27.patch.xz | patch -p1
+```
+
+```
+$ make menuconfig
+```
+
+`Processor type and features`から`Preemption Model`と進んで，`Fully
+Preemptible Kernel (RT)`を選択する．
+
+最近はLinuxのMakefileにdeb-pkgターゲットがあるので，make-kpkgは使わな
+い方向になっているらしいです．
+
+```
+$ make deb-pkg
+```
+
+以下のdebファイルが生成されます．
+
+```
+linux-headers-4.14.34-rt27_4.14.34-rt27-3_amd64.deb
+linux-image-4.14.34-rt27_4.14.34-rt27-3_amd64.deb
+```
+
+インストールします．
+
+```
+$ sudo dpkg -i linux-image-4.14.34-rt27_4.14.34-rt27-3_amd64.deb linux-headers-4.14.34-rt27_4.14.34-rt27-3_amd64.deb
+```
+
+ユーザ権限でリアルタイム処理が動くように，/etc/security/limits.confに
+各種制限を解除する設定を追加し，リブートします．
+
+```
+* - rtprio 99
+* - nice -10
+* - memlock unlimited
+```
+
+リブート後，以下のコマンドで一般ユーザでも各種制限が解除されていること
+を確認します．
+
+```
+$ ulimit -a
+
+# こうなっていればOK
+...
+max locked memory       (kbytes, -l) unlimited
+...
+real-time priority      (-r) 99
+...
+
+```
+
+## リアルタイム性の検証
