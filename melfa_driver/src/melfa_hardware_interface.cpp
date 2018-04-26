@@ -1,6 +1,7 @@
 #include "melfa_driver/melfa_hardware_interface.h"
 
-MelfaHW::MelfaHW ()
+MelfaHW::MelfaHW (double period)
+  : counter_(0), period_(period)
 {
   // initialize UDP socket
   socket_ = socket (AF_INET, SOCK_DGRAM, 0);
@@ -12,13 +13,10 @@ MelfaHW::MelfaHW ()
   // set IP and port
   ros::param::param<std::string>("~robot_ip", robot_ip_, "127.0.0.1");
 
-  ROS_INFO("robot_ip: %s", robot_ip_.c_str());
-  
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons (10000);
   addr_.sin_addr.s_addr = inet_addr (robot_ip_.c_str());
 
-  counter_ = 0;
   memset (&send_buff_, 0, sizeof (send_buff_));
   memset (&recv_buff_, 0, sizeof (recv_buff_));
 
@@ -101,20 +99,23 @@ void MelfaHW::read (void)
   fd_set fds;
   timeval time;
 
+  // Record time
+  time_old_ = time_now_;
+  time_now_ = ros::Time::now();
+
   memset (&recv_buff_, 0, sizeof (recv_buff_));
 
   FD_ZERO (&fds);
   FD_SET (socket_, &fds);
 
-  time.tv_sec = 1;
-  time.tv_usec = 0;
+  time.tv_sec = 0;
+  time.tv_usec = 2 * period_ * 1000000;
 
-  int status = select (socket_ + 1, &fds, (fd_set *) NULL, (fd_set *) NULL, &time);
+  int status = select (socket_+1, &fds, (fd_set *) NULL, (fd_set *) NULL, &time);
   if (status < 0)
   {
     ROS_ERROR ("Cannot recieve packet");
   }
-  //ROS_INFO("time: %d [us]", time.tv_usec);
   if ((status > 0) && FD_ISSET (socket_, &fds))
   {
     int size = recvfrom (socket_, &recv_buff_, sizeof (recv_buff_), 0, NULL, NULL);
@@ -137,7 +138,6 @@ void MelfaHW::read (void)
         cmd[i] = pos[i];
       }
     }
-    // ROS_INFO ("%f %f %f %f %f %f", joint->j1, joint->j2, joint->j3, joint->j4, joint->j5, joint->j6);
     counter_++;
   }
   else
@@ -146,7 +146,21 @@ void MelfaHW::read (void)
   }
 }
 
-void MelfaHW::update (void)
+void MelfaHW::diagnose(diagnostic_updater::DiagnosticStatusWrapper &stat)
 {
-  ROS_INFO ("update");
+  stat.add ("Counter", counter_);
+
+  double diff = (time_now_ - time_old_).toSec();
+  // Check over-run
+  if (diff > period_ * 1.2)
+  {
+    stat.summary(diagnostic_msgs::DiagnosticStatus::WARN,
+                 "Periodic time exceeds 120%");
+  }
+  else
+  {
+    stat.summary(diagnostic_msgs::DiagnosticStatus::OK,
+                 "Periodic time is normal");
+  }
+  stat.add ("Period", diff);
 }
