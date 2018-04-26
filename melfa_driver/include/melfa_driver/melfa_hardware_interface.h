@@ -7,18 +7,28 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <hardware_interface/joint_state_interface.h>
 #include <hardware_interface/robot_hw.h>
+#include <diagnostic_updater/diagnostic_updater.h>
 #include "melfa_driver/strdef.h"
 
 class MelfaHW:public hardware_interface::RobotHW
 {
 public:
-  MelfaHW (void);
+  MelfaHW (double period);
   void update (void);
   void write (void);
   void read (void);
   void write_first (void);
+  void diagnose(diagnostic_updater::DiagnosticStatusWrapper &stat);
 
+  inline ros::Duration getPeriod()
+  {
+    return ros::Duration(period_);
+  }
 private:
+  double period_;
+  ros::Time time_now_;
+  ros::Time time_old_;
+
   std::string robot_ip_;
   int socket_;
   struct sockaddr_in addr_;
