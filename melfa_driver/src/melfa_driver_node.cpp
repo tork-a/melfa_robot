@@ -11,27 +11,8 @@
 #include <sys/mman.h>
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-#include "melfa_driver/melfa_hardware_interface.h"
 #include <diagnostic_updater/diagnostic_updater.h>
-#include <diagnostic_updater/publisher.h>
-
-// Period [sec]
-double g_period;
-ros::Time g_time_now, g_time_old;
-  
-void loop_diagnostic(diagnostic_updater::DiagnosticStatusWrapper &stat)
-{
-  double time_dif = (g_time_now - g_time_old).toSec();
-  if (time_dif > g_period * 1.2)
-  {
-    stat.summary(diagnostic_msgs::DiagnosticStatus::WARN, "Periodic time exceeds 120%");
-  }
-  else
-  {
-    stat.summary(diagnostic_msgs::DiagnosticStatus::OK, "Periodic time is normal");
-  }
-  stat.add ("Period", time_dif);
-}
+#include "melfa_driver/melfa_hardware_interface.h"
 
 /**
  * @brief Main function
@@ -41,16 +22,22 @@ int main (int argc, char **argv)
   // init ROS node
   ros::init (argc, argv, "melfa_driver");
   ros::NodeHandle nh;
-  
-  diagnostic_updater::Updater updater;
-  updater.setHardwareID("melfa_driver");
-  updater.add("Loop updater", loop_diagnostic);
-  
+
   // Parameters
   bool realtime;
   ros::param::param<bool>("~realtime", realtime, false);
-  ros::param::param<double>("~period", g_period, 0.05);
+  double period;
+  ros::param::param<double>("~period", period, 0.0071);
+  
+  // create hardware interface 
+  MelfaHW robot(period);
+  controller_manager::ControllerManager cm (&robot, nh);
 
+  // diagnostic_updater
+  diagnostic_updater::Updater updater;
+  updater.setHardwareID("melfa_driver");
+  updater.add("diagnose", &robot, &MelfaHW::diagnose);
+  
   // Setup realtime scheduler
   if (realtime)
   {
@@ -71,28 +58,24 @@ int main (int argc, char **argv)
       exit (1);
     }  
   }
-  // create hardware interface 
-  MelfaHW robot;
-  controller_manager::ControllerManager cm (&robot, nh);
-
   // set spin rate
-  ros::Rate rate (1.0 / ros::Duration (g_period).toSec ());
+  ros::Rate rate (1.0 / robot.getPeriod().toSec());
   ros::AsyncSpinner spinner (1);
   spinner.start ();
 
+  // write first setting packet
   robot.write_first ();
 
   while (ros::ok ())
   {
-    g_time_old = g_time_now;
-    g_time_now = ros::Time::now();
+    // Wait for reciving a packet
+    robot.read ();
+    cm.update (ros::Time::now(), robot.getPeriod());
+    robot.write ();
 
     // Update diagnostics
     updater.update();
 
-    robot.read ();
-    cm.update (ros::Time::now (), ros::Duration (g_period));
-    robot.write ();
     rate.sleep ();
   }
   spinner.stop ();
