@@ -2,21 +2,24 @@
   <arg name="debug" default="false" />
   <arg unless="$(arg debug)" name="launch_prefix" value="" />
   <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
-
   <arg name="launch_rviz" default="false"/>
-  
   <arg name="loopback" default="false"/>
   <arg name="robot_ip" default="127.0.0.1"/>
+  <arg name="realtime" default="false"/>
+  <arg name="period" default="0.071"/>
 
   <!-- Start MELFA driver -->
   <node name="melfa_driver" pkg="melfa_driver" type="melfa_driver_node">
     <param name="robot_ip" value="$(arg robot_ip)"/>
+    <param name="realtime" value="$(arg realtime)"/>
+    <param name="period" value="$(arg period)"/>
   </node>
 
   <!-- Start loopback node -->
-  <node if="$(arg loopback)"
-	launch-prefix="$(arg launch_prefix)"
+  <node if="$(arg loopback)" launch-prefix="$(arg launch_prefix)"
 	name="melfa_loopback" pkg="melfa_driver" type="melfa_loopback_node">
+    <param name="realtime" value="$(arg realtime)"/>
+    <param name="period" value="$(arg period)"/>
   </node>
 
   <!-- Load robot description -->
@@ -25,7 +28,7 @@
   <!-- Load joint controller configurations -->
   <rosparam file="$(find melfa_driver)/config/controller.yaml" command="load"/>
 
-  <!-- Load the position controller -->
+  <!-- Load joint_position_controllers -->
   <node if="false" name="controller_spawner"
 	pkg="controller_manager" type="spawner" respawn="false"
 	args="joint_state_controller
@@ -36,13 +39,14 @@
 	      joint5_position_controller
 	      joint6_position_controller"/>
 
-  <node if="true" name="controller_spawner" pkg="controller_manager"
+  <!-- Load joint_trajectory_controller -->
+  <node name="controller_spawner" pkg="controller_manager"
 	type="spawner"	respawn="false"
 	args="joint_state_controller
 	      joint_trajectory_controller"/>
 
   <node name="robot_state_publisher"
-	pkg="robot_state_publisher" type="state_publisher"/>
+	pkg="robot_state_publisher" type="robot_state_publisher"/>
   
   <node if="$(arg launch_rviz)"
 	name="rviz" pkg="rviz" type="rviz"
