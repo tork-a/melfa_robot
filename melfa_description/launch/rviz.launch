@@ -1,17 +1,20 @@
 <launch>
+  <arg name="use_gui" default="false" />
+
   <param name="robot_description"
 	 command="$(find xacro)/xacro '$(find melfa_description)/urdf/rv7fl.urdf.xacro'" />
 
   <!-- send fake joint values -->
-  <node name="joint_state_publisher"
+  <node if="$(arg use_gui)"
+	name="joint_state_publisher"
 	pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="true"/>
+    <param name="use_gui" value="$(arg use_gui)"/>
   </node>
 
   <!-- Combine joint values -->
   <node name="robot_state_publisher"
 	pkg="robot_state_publisher" type="state_publisher"/>
-
+  
   <!-- Show in Rviz   -->
   <node name="rviz"
 	pkg="rviz" type="rviz"
