@@ -10,6 +10,9 @@
 #include <diagnostic_updater/diagnostic_updater.h>
 #include "melfa_driver/strdef.h"
 
+#define JOINT_NUM (8)
+
+
 class MelfaHW:public hardware_interface::RobotHW
 {
 public:
@@ -40,8 +43,8 @@ private:
   hardware_interface::JointStateInterface joint_state_interface;
   hardware_interface::PositionJointInterface joint_pos_interface;
 
-  double cmd[6];
-  double pos[6];
-  double vel[6];
-  double eff[6];
+  double cmd[JOINT_NUM];
+  double pos[JOINT_NUM];
+  double vel[JOINT_NUM];
+  double eff[JOINT_NUM];
 };
