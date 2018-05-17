@@ -6,7 +6,7 @@
   <arg name="loopback" default="false"/>
   <arg name="robot_ip" default="127.0.0.1"/>
   <arg name="realtime" default="false"/>
-  <arg name="period" default="0.071"/>
+  <arg name="period" default="0.0071"/>
 
   <!-- Start MELFA driver -->
   <node name="melfa_driver" pkg="melfa_driver" type="melfa_driver_node">
