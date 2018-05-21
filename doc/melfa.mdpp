@@ -1,0 +1,14 @@
+---
+title: "産業ロボットアームRV-7FL ROS化調査作業 Step1 報告書"
+author: [Tokyo Opensource Robotics Kyokai(TORK)]
+date: 2018-05-31
+titlepage: true
+titlepage-rule-color: FFBF00
+geometry:
+  - "left=20mm"
+  - "right=20mm"
+caption-justification: centering
+urlcolor: blue
+...
+
+!INCLUDE "step-1.md"
