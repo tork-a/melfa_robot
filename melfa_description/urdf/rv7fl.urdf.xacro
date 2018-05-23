@@ -1,16 +1,7 @@
 <?xml version="1.0"?>
 <!-- Copyright (C) 2018, Tokyo Opensource Robotics Kyokai Association -->
 <robot name="rv7fl" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find melfa_description)/urdf/materials.xacro" />
   <link name="base_link">
-    <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
-      <axis xyz="0 0 0"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV-7F_BASE_01.stl"/>
-      </geometry>
-      <material name="white1"/>
-    </visual>
   </link>
 
   <joint name="joint1" type="revolute">
@@ -23,13 +14,6 @@
   </joint>
 
   <link name="link1">
-    <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV-7F_SHOLDER_02.stl"/>
-      </geometry>
-      <material name="white2"/>
-    </visual>
   </link>
 
   <joint name="joint2" type="revolute">
@@ -42,13 +26,6 @@
   </joint>
 
   <link name="link2">
-    <visual>
-      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi}"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV_7FL_NO1ARM_03.stl"/>
-      </geometry>
-      <material name="white3"/>
-    </visual>
   </link>
 
   <joint name="joint3" type="revolute">
@@ -61,13 +38,6 @@
   </joint>
 
   <link name="link3">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 ${pi/2} ${pi/2}"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV-7F_ELBOW_04.stl"/>
-      </geometry>
-      <material name="white1"/>
-    </visual>
   </link>
 
   <joint name="joint4" type="revolute">
@@ -80,13 +50,6 @@
   </joint>
 
   <link name="link4">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 ${pi/2} ${-pi/2}"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV_7FL_NO2ARM_05.stl"/>
-      </geometry>
-      <material name="white2"/>
-    </visual>
   </link>
 
   <joint name="joint5" type="revolute">
@@ -99,13 +62,6 @@
   </joint>
 
   <link name="link5">
-    <visual>
-      <origin xyz="0 0 0" rpy="0 ${pi/2} ${-pi/2}"/>
-      <geometry>
-        <mesh filename="package://melfa_description/mesh/RV-4F_WRIST_06.stl"/>
-      </geometry>
-      <material name="white3"/>
-    </visual>
   </link>
 
   <joint name="joint6" type="revolute">
