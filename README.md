@@ -35,9 +35,3 @@ rqtのJointTrajctoryControllerプラグインを使うと，スライダでロ�
 ```
 $ rqt -s rqt_joint_trajectory_controller/JointTrajectoryController
 ```
-
-MoveIt!での動作を確認するためには, 以下のようにします．
-
-```
-$ roslaunch rv7fl_moveit_config moveit_planning_execution.launch
-```

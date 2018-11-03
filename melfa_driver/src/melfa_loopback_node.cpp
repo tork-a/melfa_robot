@@ -105,6 +105,8 @@ public:
       send_buff_.dat.jnt.j4 = recv_buff_.dat.jnt.j4;
       send_buff_.dat.jnt.j5 = recv_buff_.dat.jnt.j5;
       send_buff_.dat.jnt.j6 = recv_buff_.dat.jnt.j6;
+      send_buff_.dat.jnt.j7 = recv_buff_.dat.jnt.j7;
+      send_buff_.dat.jnt.j8 = recv_buff_.dat.jnt.j8;
 
       size = sendto (socket_,
                      (char *) &send_buff_, sizeof (send_buff_),
@@ -125,13 +127,15 @@ public:
     ROS_INFO("mxt.RecvType3: %d", mxt.RecvType3);
     if (mxt.RecvType == MXT_TYP_JOINT)
     {
-      ROS_INFO("mxt.dat.jnt: % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f",
+      ROS_INFO("mxt.dat.jnt: % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f % 4.3f",
                mxt.dat.jnt.j1,
                mxt.dat.jnt.j2,
                mxt.dat.jnt.j3,
                mxt.dat.jnt.j4,
                mxt.dat.jnt.j5,
-               mxt.dat.jnt.j6);
+               mxt.dat.jnt.j6,
+               mxt.dat.jnt.j7,
+               mxt.dat.jnt.j8);
     }
     else
     {
