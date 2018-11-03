@@ -20,11 +20,13 @@ MelfaHW::MelfaHW (double period)
   memset (&send_buff_, 0, sizeof (send_buff_));
   memset (&recv_buff_, 0, sizeof (recv_buff_));
 
-  std::string joint_names[6] =
-  {
-  "joint1", "joint2", "joint3", "joint4", "joint5", "joint6"};
+  std::string joint_names[JOINT_NUM] =
+    {
+      "joint1", "joint2", "joint3", "joint4",
+      "joint5", "joint6", "joint7", "joint8"
+    };
   // connect and register the joint state interface
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < JOINT_NUM; i++)
   {
     hardware_interface::JointStateHandle state_handle (joint_names[i], &pos[i], &vel[i], &eff[i]);
     joint_state_interface.registerHandle (state_handle);
@@ -32,7 +34,7 @@ MelfaHW::MelfaHW (double period)
   registerInterface (&joint_state_interface);
 
   // connect and register the joint position interface
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < JOINT_NUM; i++)
   {
     hardware_interface::JointHandle joint_pos_handle (joint_state_interface.getHandle (joint_names[i]), &cmd[i]);
     joint_pos_interface.registerHandle (joint_pos_handle);
@@ -84,6 +86,8 @@ void MelfaHW::write (void)
   send_buff_.dat.jnt.j4 = cmd[3];
   send_buff_.dat.jnt.j5 = cmd[4];
   send_buff_.dat.jnt.j6 = cmd[5];
+  send_buff_.dat.jnt.j7 = cmd[6];
+  send_buff_.dat.jnt.j8 = cmd[7];
   send_buff_.CCount = counter_;
 
   int size = sendto (socket_, (char *) &send_buff_, sizeof (send_buff_), 0, (struct sockaddr *) &addr_, sizeof (addr_));
@@ -131,9 +135,11 @@ void MelfaHW::read (void)
     pos[3] = joint->j4;
     pos[4] = joint->j5;
     pos[5] = joint->j6;
+    pos[6] = joint->j7;
+    pos[7] = joint->j8;
     if (counter_ == 0)
     {
-      for (int i = 0; i < 6; i++)
+      for (int i = 0; i < JOINT_NUM; i++)
       {
         cmd[i] = pos[i];
       }

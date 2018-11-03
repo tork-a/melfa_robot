@@ -3,7 +3,7 @@
   <name>melfa_driver</name>
   <version>0.0.0</version>
   <description>The melfa_driver package</description>
-  <author email="7675t@opensource-robotics.tokyo.jp">Ryosuke Tajima</author>
+  <author email="ryosuke.tajima@opensource-robotics.tokyo.jp">Ryosuke Tajima</author>
   <maintainer email="dev@opensource-robotics.tokyo.jp">Tokyo Opensource Robotics Kyokai (TORK) Developer Team</maintainer>
 
   <license>Apache License 2.0</license>
