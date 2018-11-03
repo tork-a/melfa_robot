@@ -1,0 +1,16 @@
+---
+title: "産業用ロボットアームRV-7FL ROS化調査"
+subtitle: "Step1 作業報告書"
+author: [（一社)東京オープンソースロボティクス協会(TORK)]
+date: 2018-05-31
+titlepage: true
+titlepage-rule-color: FFBF00
+geometry:
+  - "left=20mm"
+  - "right=20mm"
+caption-justification: centering
+urlcolor: blue
+numbersections: true
+...
+
+!INCLUDE "step-1.md"
