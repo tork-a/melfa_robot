@@ -1,8 +1,9 @@
 <launch>
   <arg name="use_gui" default="false" />
+  <arg name="robot" default="rv7fl" />
 
   <param name="robot_description"
-	 command="$(find xacro)/xacro '$(find melfa_description)/urdf/rv7fl.urdf.xacro'" />
+	 command="$(find xacro)/xacro --inorder '$(find melfa_description)/urdf/$(arg robot).urdf.xacro'" />
 
   <!-- send fake joint values -->
   <node if="$(arg use_gui)"
