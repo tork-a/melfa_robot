@@ -7,6 +7,7 @@
   <author email="ryosuke.tajima@opensource-robotics.tokyo.jp">Ryosuke Tajima</author>
   <maintainer email="dev@opensource-robotics.tokyo.jp">Tokyo Opensource Robotics Kyokai(TORK) Developer Team</maintainer>
   <license>Apache License 2.0</license>
+  <license>CC-BY-SA</license>
 
   <url type="website">http://wiki.ros.org/melfa_description</url>
 
