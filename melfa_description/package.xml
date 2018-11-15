@@ -14,6 +14,8 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>rviz</depend>
   <depend>xacro</depend>
+  <depend>joint_state_publisher</depend>
+  <depend>robot_state_publisher</depend>
   <test_depend>roslaunch</test_depend>
   <test_depend>rostest</test_depend>
 
