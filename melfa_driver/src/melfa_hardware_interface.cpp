@@ -1,7 +1,7 @@
 #include "melfa_driver/melfa_hardware_interface.h"
 
 MelfaHW::MelfaHW (double period)
-  : counter_(0), period_(period)
+  : counter_(0), period_(period), use_joint7_(false), use_joint8_(false)
 {
   // initialize UDP socket
   socket_ = socket (AF_INET, SOCK_DGRAM, 0);
@@ -12,6 +12,9 @@ MelfaHW::MelfaHW (double period)
   }
   // set IP and port
   ros::param::param<std::string>("~robot_ip", robot_ip_, "127.0.0.1");
+  // Usage of additional joints
+  ros::param::param<bool>("~use_joint7", use_joint7_, false);
+  ros::param::param<bool>("~use_joint8", use_joint8_, false);
 
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons (10000);
@@ -28,6 +31,15 @@ MelfaHW::MelfaHW (double period)
   // connect and register the joint state interface
   for (int i = 0; i < JOINT_NUM; i++)
   {
+    // Skip unused joints
+    if (i==6 and not use_joint7_)
+    {
+      continue;
+    }
+    if (i==7 and not use_joint8_)
+    {
+      continue;
+    }
     hardware_interface::JointStateHandle state_handle (joint_names[i], &pos[i], &vel[i], &eff[i]);
     joint_state_interface.registerHandle (state_handle);
   }
@@ -36,6 +48,15 @@ MelfaHW::MelfaHW (double period)
   // connect and register the joint position interface
   for (int i = 0; i < JOINT_NUM; i++)
   {
+    // Skip unused joints
+    if (i==6 and not use_joint7_)
+    {
+      continue;
+    }
+    if (i==7 and not use_joint8_)
+    {
+      continue;
+    }
     hardware_interface::JointHandle joint_pos_handle (joint_state_interface.getHandle (joint_names[i]), &cmd[i]);
     joint_pos_interface.registerHandle (joint_pos_handle);
   }
