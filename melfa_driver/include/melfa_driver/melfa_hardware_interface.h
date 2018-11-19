@@ -40,6 +40,11 @@ private:
   MXTCMD recv_buff_;
   int counter_;
 
+  // true if use joint7
+  bool use_joint7_;
+  // true if use joint8
+  bool use_joint8_;
+
   hardware_interface::JointStateInterface joint_state_interface;
   hardware_interface::PositionJointInterface joint_pos_interface;
 
