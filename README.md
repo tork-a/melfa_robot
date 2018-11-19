@@ -38,3 +38,13 @@ You can try MoveIt! rviz plug-in.
 $ roslaunch rv7fl_moveit_config moveit_planning_execution.launch 
 ```
 
+## Supported robot
+
+Currently these robots are supported.
+
+- RV4FL
+- RV7FL
+
+![MoveIt! with RV4FL](img/moveit_rv4fl.png)
+
+![MoveIt! with RV7FL](img/moveit_rv7fl.png)

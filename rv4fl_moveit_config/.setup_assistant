@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: melfa_description
+    relative_path: urdf/rv4fl.urdf.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/rv4fl.srdf
+  CONFIG:
+    author_name: Tokyo Opensource Robotics Kyokai(TORK) Developer Team
+    author_email: dev@opensource-robotics.tokyo.jp
+    generated_timestamp: 1542000301
