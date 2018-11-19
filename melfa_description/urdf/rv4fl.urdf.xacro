@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<!-- Copyright (C) 2018, YOODS, Inc. -->
+<robot name="rv4fl" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <material name="black">
+    <color rgba="0.0 0.0 0.0 1.0"/>
+  </material>
+  <material name="white">
+    <color rgba="1.0 1.0 1.0 1.0"/>
+  </material>
+  <material name="yoods">
+    <color rgba="1.0 1.0 0.7 0.9"/>
+  </material>
+
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- macro -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <xacro:property name="pi" value="3.1415926535897931" />
+  <!-- STL file -->
+  <xacro:property name="folder" value="package://melfa_description/mesh/rv4fl"/>
+  <xacro:property name="link0_stl" value="${folder}/L0.stl" />
+  <xacro:property name="link1_stl" value="${folder}/L1.stl" />
+  <xacro:property name="link2_stl" value="${folder}/L2.stl" />
+  <xacro:property name="link3_stl" value="${folder}/L3.stl" />
+  <xacro:property name="link4_stl" value="${folder}/L4.stl" />
+  <xacro:property name="link5_stl" value="${folder}/L5.stl" />
+  <xacro:property name="link6_stl" value="${folder}/L6.stl" />
+  <xacro:property name="handeye_stl" value="package://melfa_description/mesh/equipment/handEye.stl" />
+  <!-- STL model yawing -->
+  <xacro:property name="yaw" value="${pi}"/>
+
+  <!-- link definition -->
+  <xacro:macro name="link_visual" params="fn col origin_xyz">
+    <visual>
+      <geometry>
+	<mesh filename="${fn}"/>
+      </geometry>
+      <material name="${col}"/>
+      <origin rpy="0 0 ${yaw}" xyz="${origin_xyz}"/>
+    </visual>
+    <collision>
+      <geometry>
+	<mesh filename="${fn}"/>
+      </geometry>
+      <origin rpy="0 0 ${yaw}" xyz="${origin_xyz}"/>
+    </collision>
+  </xacro:macro>
+
+  <xacro:macro name="link_state" params="mass origin_xyz ixx ixy ixz iyy iyz izz">
+    <inertial>
+      <mass value="${mass}"/>
+      <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+      <inertia ixx="${ixx}" ixy="${ixy}" ixz="${ixz}"
+               iyy="${iyy}" iyz="${iyz}"
+               izz="${izz}"/>
+    </inertial>
+  </xacro:macro>
+
+  <!-- joint definition -->
+  <xacro:macro name="joint_state" params="parent child origin_xyz axis effort lower upper vel">
+    <parent link="${parent}"/>
+    <child link="${child}"/>
+    <origin rpy="0 0 0" xyz="${origin_xyz}"/>
+    <axis xyz="${axis}"/>
+    <limit effort="${effort}" lower="${lower}" upper="${upper}" velocity="${vel}"/>
+  </xacro:macro>
+
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- world -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="world"/>
+  <!-- fixed joint -->
+  <joint name="world_joint" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- base_link -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="base_link">
+    <origin rpy="0 0 ${pi}"/>
+    <xacro:link_visual fn="${link0_stl}"
+                       col="white"
+                       origin_xyz="0 0 0"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 1 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint1" type="revolute">
+    <xacro:joint_state parent="base_link"
+                       child="link1"
+                       origin_xyz="0 0 ${0.193}"
+                       axis="0 0 1"
+                       effort="224.64"
+                       lower="${-240.*pi/180.}"
+                       upper="${ 240.*pi/180.}"
+                       vel="7.330"/>
+
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link1 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link1">
+    <xacro:link_visual fn="${link1_stl}"
+                       col="white"
+                       origin_xyz="0
+                                   0
+                                   -0.193"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 2 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint2" type="revolute">
+    <xacro:joint_state parent="link1"
+                       child="link2"
+                       origin_xyz="0 0.091 0.157"
+                       axis="0 1 0"
+                       effort="263.25"
+                       lower="${-120.*pi/180.}"
+                       upper="${ 120.*pi/180.}"
+                       vel="5.864"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link2 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link2">
+    <xacro:link_visual fn="${link2_stl}"
+                       col="white"
+                       origin_xyz="0
+                                   -0.091
+                                   ${-0.193-0.157}"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 3 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint3" type="revolute">
+    <xacro:joint_state parent="link2"
+                       child="link3"
+                       origin_xyz="0 -0.047 0.310"
+                       axis="0 1 0"
+                       effort="145.15"
+                       lower="${0.*pi/180.}"
+                       upper="${164.*pi/180.}"
+                       vel="4.363"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link3 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link3">
+    <xacro:link_visual fn="${link3_stl}"
+                       col="white"
+                       origin_xyz="0
+                                   ${-0.091+0.047}
+                                   ${-0.193-0.157-0.310}"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 4 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint4" type="revolute">
+    <xacro:joint_state parent="link3"
+                       child="link4"
+                       origin_xyz="-0.050 -0.044 0.065"
+                       axis="0 0 1"
+                       effort="67.20"
+                       lower="${-200.*pi/180.}"
+                       upper="${ 200.*pi/180.}"
+                       vel="9.425"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link4 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link4">
+    <xacro:link_visual fn="${link4_stl}"
+                       col="white"
+                       origin_xyz="0.050
+                                   ${-0.091+0.047+0.044}
+                                   ${-0.193-0.157-0.310-0.065}"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 5 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint5" type="revolute">
+    <xacro:joint_state parent="link4"
+                       child="link5"
+                       origin_xyz="0 -0.021 0.270"
+                       axis="0 1 0"
+                       effort="29.12"
+                       lower="${-120.*pi/180.}"
+                       upper="${ 120.*pi/180.}"
+                       vel="10.875"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link5 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link5">
+    <xacro:link_visual fn="${link5_stl}"
+                       col="white"
+                       origin_xyz="0.050
+                                   ${-0.091+0.047+0.044+0.021}
+                                   ${-0.193-0.157-0.310-0.065-0.27}"/>
+  </link>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 6 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint6" type="revolute">
+    <xacro:joint_state parent="link5"
+                       child="link6"
+                       origin_xyz="0 0.021 0.125"
+                       axis="0 0 1"
+                       effort="25.20"
+                       lower="${-200.*pi/180.}"
+                       upper="${ 200.*pi/180.}"
+                       vel="12.566"/>
+    <dynamics damping="0.7"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- link6 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="link6">
+    <xacro:link_visual fn="${link6_stl}"
+                       col="white"
+                       origin_xyz="0.050
+                                   ${-0.091+0.047+0.044+0.021-0.021}
+                                   ${-0.193-0.157-0.310-0.065-0.27-0.125}"/>
+  </link>
+
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- joint 7 -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <joint name="joint7" type="fixed">
+    <xacro:joint_state parent="link6"
+                       child="handeye"
+                       origin_xyz="0 0 0"
+                       axis="0 0 1"
+                       effort="0.0"
+                       lower="0.0"
+                       upper="0.0"
+                       vel="0.0"/>
+  </joint>
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <!-- hand-eye -->
+  <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+  <link name="handeye">
+    <xacro:link_visual fn="${handeye_stl}"
+                       col="yoods"
+                       origin_xyz="0 0 0"/>
+  </link>
+</robot>
