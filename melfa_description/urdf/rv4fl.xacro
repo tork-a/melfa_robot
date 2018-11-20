@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<!-- Copyright (C) 2018, Tokyo Opensource Robotics Kyokai Association -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="rv4fl" params="parent *origin">
+    <joint name="rv4fl_mounting_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="link0"/>
+    </joint>    
+
+    <link name="link0">
+      <visual>
+	<origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L0.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 ${pi}" xyz="0 0 0"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L0.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint1" type="revolute">
+      <parent link="link0"/>
+      <child link="link1"/>
+      <origin xyz="0 0 0.350" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${240*pi/180}" lower="${-240*pi/180}" effort="224.64" velocity="7.330"/>
+    </joint>
+
+    <link name="link1">
+      <visual>
+	<origin rpy="0 0 0" xyz="0 0 -0.350"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L1.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 0" xyz="0 0 -0.350"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L1.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint2" type="revolute">
+      <parent link="link1"/>
+      <child link="link2"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${130*pi/180}" lower="${-110*pi/180}" effort="263.25" velocity="${321*pi/180}" />
+    </joint>
+
+    <link name="link2">
+      <visual>
+	<origin rpy="0 0 ${pi}" xyz="0 0 -0.350"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L2.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 ${pi}" xyz="0 0 -0.350"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L2.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint3" type="revolute">
+      <parent link="link2"/>
+      <child link="link3"/>
+      <origin xyz="0 0 0.310" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${162*pi/180}" lower="0.00" effort="145.15" velocity="${360*pi/180}" />
+    </joint>
+
+    <link name="link3">
+      <visual>
+	<origin rpy="0 0 ${pi}" xyz="0 0 ${-0.350-0.310}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L3.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 ${pi}" xyz="0 0 ${-0.350-0.310}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L3.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint4" type="revolute">
+      <parent link="link3"/>
+      <child link="link4"/>
+      <origin xyz="-0.050 0 0.335" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${200*pi/180}" lower="${-200*pi/180}" effort="10" velocity="${337*pi/180}" />
+    </joint>
+
+    <link name="link4">
+      <visual>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L4.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L4.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint5" type="revolute">
+      <parent link="link4"/>
+      <child link="link5"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${120*pi/180}" lower="${-120*pi/180}" effort="10" velocity="${450*pi/180}" />
+    </joint>
+
+    <link name="link5">
+      <visual>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L5.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L5.stl"/>
+	</geometry>
+      </collision>
+    </link>
+
+    <joint name="joint6" type="revolute">
+      <parent link="link5"/>
+      <child link="link6"/>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <dynamics damping="0.7"/>
+      <limit upper="${360*pi/180}" lower="${-360*pi/180}" effort="10" velocity="${720*pi/180}" />
+    </joint>
+
+    <link name="link6">
+      <visual>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335-0.125}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L6.stl"/>
+	</geometry>
+	<material name="white"/>
+      </visual>
+      <collision>
+	<origin rpy="0 0 0" xyz="-0.050 0 ${-0.350-0.310-0.335-0.125}"/>
+	<geometry>
+	  <mesh filename="package://melfa_description/mesh/rv4fl/L6.stl"/>
+	</geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

@@ -1,5 +1,5 @@
 <launch>
-  <arg name="use_gui" default="false" />
+  <arg name="use_gui" default="true" />
   <arg name="robot" default="rv7fl" />
 
   <param name="robot_description"
@@ -16,7 +16,7 @@
   <node name="robot_state_publisher"
 	pkg="robot_state_publisher" type="state_publisher"/>
   
-  <!-- Show in Rviz   -->
+  <!-- Show in Rviz -->
   <node name="rviz"
 	pkg="rviz" type="rviz"
 	args="-d $(find melfa_description)/launch/melfa_description.rviz"/>
