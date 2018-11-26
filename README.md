@@ -1,12 +1,29 @@
-# melfa_ros [![Build Status](https://travis-ci.com/tork-a/melfa_ros.svg?token=Eg7EHKJ8kwE5VZs6TwDp&branch=master)](https://travis-ci.com/tork-a/melfa_ros)
+# melfa_robot [![Build Status](https://travis-ci.com/tork-a/melfa_robot.svg?token=Eg7EHKJ8kwE5VZs6TwDp&branch=master)](https://travis-ci.com/tork-a/melfa_robot)
 
-This package is for control the MELFA's robot arms from ROS.
+This package is to control the MELFA's robot arms using ROS.
+
+## Supported hardware
+
+### Robot controllers
+
+Currently `melfa_driver` is checked with the following MELFA robot
+controller.
+
+<img src="http://www.mitsubishielectric.co.jp/fa/products/rbt/robot/pmerit/common/img/src/s_cr750_751.jpg" width="200x"> CR750-Q 
+
+### Robot arms
+
+Currently `melfa_description` contains the models of following MELFA robots.
+
+<img src="http://www.mitsubishielectric.co.jp/fa/products/rbt/robot/pmerit/common/img/src/s_4f.jpg" width="200x"> RV4FL
+
+<img src="http://www.mitsubishielectric.co.jp/fa/products/rbt/robot/pmerit/common/img/src/s_7f.jpg" width="200x"> RV7FL
 
 ## Quick start with the loopback node
 
 `melfa_driver/melfa_driver_node` is the controller node, providing
 `hardware_interface::RobotHW`. This controller communicate with the
-actual robot controller or the simulater named "RT Toolbox3" on
+actual robot controller, or the simulater named "RT Toolbox3" on
 Windowns via Ethernet(TCP/IP).
 
 In case that you don't have actual robot and simulator, the package
@@ -22,7 +39,7 @@ $ roslaunch melfa_driver melfa_driver.launch loopback:=true
 If you want view the robot model, launch rviz as:
 
 ```
-$ roslaunch melfa_description rviz.launch 
+$ roslaunch melfa_description rviz.launch use_gui:=false
 ```
 
 You can use rqt plug-in `JointTrajctoryController` to control the
@@ -32,19 +49,16 @@ robot joints using slider GUI.
 $ rqt -s rqt_joint_trajectory_controller/JointTrajectoryController
 ```
 
-You can try MoveIt! rviz plug-in.
+## MoveIt!
+
+You can try MoveIt! Rviz plug-in.
 
 ```
 $ roslaunch rv7fl_moveit_config moveit_planning_execution.launch 
 ```
 
-## Supported robot
+Currently there are moveit_config packages for the following robot.
 
-Currently these robots are supported.
+<img src="img/moveit_rv4fl.png" width="200x"> RV4FL
 
-- RV4FL
-- RV7FL
-
-![MoveIt! with RV4FL](img/moveit_rv4fl.png)
-
-![MoveIt! with RV7FL](img/moveit_rv7fl.png)
+<img src="img/moveit_rv7fl.png" width="200x"> RV7FL

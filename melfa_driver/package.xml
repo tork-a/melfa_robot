@@ -9,8 +9,8 @@
   <license>Apache License 2.0</license>
 
   <url type="website">http://wiki.ros.org/melfa_driver</url>
-  <url type="repository">https://github.com/tork-a/melfa_ros</url>
-  <url type="bugtracker">https://github.com/tork-a/melfa_ros/issues</url>
+  <url type="repository">https://github.com/tork-a/melfa_robot</url>
+  <url type="bugtracker">https://github.com/tork-a/melfa_robot/issues</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   <depend>controller_manager</depend>

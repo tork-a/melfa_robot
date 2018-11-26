@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Tokyo Opensource Robotics Kyokai(TORK) Developer Team
     author_email: dev@opensource-robotics.tokyo.jp
-    generated_timestamp: 1542000301
+    generated_timestamp: 1542689465
