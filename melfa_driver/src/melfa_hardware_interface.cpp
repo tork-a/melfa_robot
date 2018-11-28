@@ -1,7 +1,9 @@
 #include "melfa_driver/melfa_hardware_interface.h"
 
 MelfaHW::MelfaHW (double period)
-  : counter_(0), period_(period), use_joint7_(false), use_joint8_(false)
+  : counter_(0), period_(period),
+    use_joint7_(false), use_joint8_(false),
+    joint7_is_linear_(false), joint8_is_linear_(false)
 {
   // initialize UDP socket
   socket_ = socket (AF_INET, SOCK_DGRAM, 0);
@@ -15,6 +17,8 @@ MelfaHW::MelfaHW (double period)
   // Usage of additional joints
   ros::param::param<bool>("~use_joint7", use_joint7_, false);
   ros::param::param<bool>("~use_joint8", use_joint8_, false);
+  ros::param::param<bool>("~joint7_is_linear", joint7_is_linear_, false);
+  ros::param::param<bool>("~joint8_is_linear", joint8_is_linear_, false);
 
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons (10000);
@@ -107,8 +111,24 @@ void MelfaHW::write (void)
   send_buff_.dat.jnt.j4 = cmd[3];
   send_buff_.dat.jnt.j5 = cmd[4];
   send_buff_.dat.jnt.j6 = cmd[5];
-  send_buff_.dat.jnt.j7 = cmd[6];
-  send_buff_.dat.jnt.j8 = cmd[7];
+  if (joint7_is_linear_)
+  {
+    // Convert unit to mm
+    send_buff_.dat.jnt.j7 = cmd[6] * 1000.0;
+  }
+  else
+  {
+    send_buff_.dat.jnt.j7 = cmd[6];
+  }
+  if (joint8_is_linear_)
+  {
+    // Convert unit to [mm]
+    send_buff_.dat.jnt.j8 = cmd[7] * 1000.0;
+  }
+  else
+  {
+    send_buff_.dat.jnt.j8 = cmd[7];
+  }
   send_buff_.CCount = counter_;
 
   int size = sendto (socket_, (char *) &send_buff_, sizeof (send_buff_), 0, (struct sockaddr *) &addr_, sizeof (addr_));
@@ -156,8 +176,27 @@ void MelfaHW::read (void)
     pos[3] = joint->j4;
     pos[4] = joint->j5;
     pos[5] = joint->j6;
-    pos[6] = joint->j7;
-    pos[7] = joint->j8;
+
+    if (joint7_is_linear_)
+    {
+      // Convert unit to [m]
+      pos[6] = joint->j7 / 1000.0;
+    }
+    else
+    {
+      pos[6] = joint->j7;
+    }
+    
+    if (joint8_is_linear_)
+    {
+      // Convert unit to [m]
+      pos[7] = joint->j8 / 1000.0;
+    }
+    else
+    {
+      pos[7] = joint->j8;
+    }
+    // Set current position when it starts
     if (counter_ == 0)
     {
       for (int i = 0; i < JOINT_NUM; i++)
