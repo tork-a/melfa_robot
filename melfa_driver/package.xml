@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>melfa_driver</name>
-  <version>0.0.0</version>
+  <version>0.0.1</version>
   <description>The melfa_driver package</description>
   <author email="ryosuke.tajima@opensource-robotics.tokyo.jp">Ryosuke Tajima</author>
   <maintainer email="dev@opensource-robotics.tokyo.jp">Tokyo Opensource Robotics Kyokai (TORK) Developer Team</maintainer>

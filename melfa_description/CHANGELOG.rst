@@ -2,8 +2,8 @@
 Changelog for package melfa_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2018-12-14)
+------------------
 * Remove catkin_lint error from melfa_description
 * Add copyright holder of mesh files in README.md
 * Reorganize URDF for RV4FL to be re-usable
