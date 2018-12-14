@@ -44,6 +44,10 @@ private:
   bool use_joint7_;
   // true if use joint8
   bool use_joint8_;
+  // true if joint7 is linear joint
+  bool joint7_is_linear_;
+  // true if joint8 is linear joint
+  bool joint8_is_linear_;
 
   hardware_interface::JointStateInterface joint_state_interface;
   hardware_interface::PositionJointInterface joint_pos_interface;
