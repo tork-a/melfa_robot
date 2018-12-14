@@ -21,7 +21,7 @@ install(DIRECTORY launch mesh urdf
 #############
 
 if(CATKIN_ENABLE_TESTING)
-  find_package(catkin REQUIRED COMPONENTS rostest roslaunch)
+  find_package(roslaunch REQUIRED)
   file(GLOB LAUNCH_FILES launch/*.launch)
   foreach(LAUNCH_FILE ${LAUNCH_FILES})
     message(status "Testing ${LAUNCH_FILE}")
