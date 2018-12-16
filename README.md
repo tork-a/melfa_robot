@@ -62,3 +62,11 @@ Currently there are moveit_config packages for the following robot.
 <img src="img/moveit_rv4fl.png" width="200x"> RV4FL
 
 <img src="img/moveit_rv7fl.png" width="200x"> RV7FL
+
+# License
+
+- [YOODS Inc.](https://www.yoods.co.jp/) holds the copyright of all
+  mesh files in ``melfa_description/mesh`` directory which are
+  licensed under a Creative Commons Attribution-ShareAlike 4.0
+  International License.
+- Other parts are licenced under Apache License 2.0.
