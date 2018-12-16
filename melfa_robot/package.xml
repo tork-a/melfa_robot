@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>melfa_robot</name>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <description>The melfa_robot meta package</description>
 
   <maintainer email="dev@opensource-robotics.tokyo.jp">Tokyo Opensource Robotics Kyokai (TORK) Developer Team</maintainer>
