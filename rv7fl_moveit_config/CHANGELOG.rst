@@ -2,6 +2,9 @@
 Changelog for package rv7fl_moveit_config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.0.1 (2018-12-14)
 ------------------
 * Add additional joints(`#13 <https://github.com/tork-a/melfa_robot/issues/13>`_)

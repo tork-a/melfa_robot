@@ -2,6 +2,9 @@
 Changelog for package rv4fl_moveit_config
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.0.1 (2018-12-14)
 ------------------
 * rename melfa_ros to melfa_robot
