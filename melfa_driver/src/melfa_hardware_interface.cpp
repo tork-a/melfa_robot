@@ -173,7 +173,7 @@ void MelfaHW::read (void)
   int status = select (socket_+1, &fds, (fd_set *) NULL, (fd_set *) NULL, &time);
   if (status < 0)
   {
-    ROS_ERROR ("Cannot recieve packet");
+    ROS_ERROR ("Cannot receive packet");
   }
   if ((status > 0) && FD_ISSET (socket_, &fds))
   {
