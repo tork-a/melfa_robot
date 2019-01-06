@@ -222,7 +222,7 @@ void MelfaHW::read (void)
   }
   else
   {
-    ROS_WARN ("Failed to recvive packet.");
+    ROS_WARN ("Failed to receive packet.");
   }
 }
 
