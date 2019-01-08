@@ -119,12 +119,16 @@ void MelfaHW::write (void)
   send_buff_.BitTop = 0;
   send_buff_.BitMask = 0;
   send_buff_.IoData = 0;
-  send_buff_.dat.jnt.j1 = cmd[0];
-  send_buff_.dat.jnt.j2 = cmd[1];
-  send_buff_.dat.jnt.j3 = cmd[2];
-  send_buff_.dat.jnt.j4 = cmd[3];
-  send_buff_.dat.jnt.j5 = cmd[4];
-  send_buff_.dat.jnt.j6 = cmd[5];
+
+  // Rounding down to five decimal places -- otherwise small oscillations
+  // from ros_control around 0 seem to cause a H0117 error (power supply error
+  // in the brake) for CR800-D robot control with RV-4FRL-D
+  send_buff_.dat.jnt.j1 = round(cmd[0] * 10000.f) / 10000.f;
+  send_buff_.dat.jnt.j2 = round(cmd[1] * 10000.f) / 10000.f;
+  send_buff_.dat.jnt.j3 = round(cmd[2] * 10000.f) / 10000.f;
+  send_buff_.dat.jnt.j4 = round(cmd[3] * 10000.f) / 10000.f;
+  send_buff_.dat.jnt.j5 = round(cmd[4] * 10000.f) / 10000.f;
+  send_buff_.dat.jnt.j6 = round(cmd[5] * 10000.f) / 10000.f;
   if (joint7_is_linear_)
   {
     // Convert unit to mm
