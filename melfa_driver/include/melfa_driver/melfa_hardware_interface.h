@@ -62,6 +62,8 @@ private:
   bool joint7_is_linear_;
   // true if joint8 is linear joint
   bool joint8_is_linear_;
+  // true to round the command angle
+  bool round_command_angle_;
 
   hardware_interface::JointStateInterface joint_state_interface;
   hardware_interface::PositionJointInterface joint_pos_interface;

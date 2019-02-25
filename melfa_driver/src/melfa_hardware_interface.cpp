@@ -17,7 +17,8 @@
 MelfaHW::MelfaHW (double period)
   : counter_(0), period_(period),
     use_joint7_(false), use_joint8_(false),
-    joint7_is_linear_(false), joint8_is_linear_(false)
+    joint7_is_linear_(false), joint8_is_linear_(false),
+    round_command_angle_(false)
 {
   // initialize UDP socket
   socket_ = socket (AF_INET, SOCK_DGRAM, 0);
@@ -33,6 +34,7 @@ MelfaHW::MelfaHW (double period)
   ros::param::param<bool>("~use_joint8", use_joint8_, false);
   ros::param::param<bool>("~joint7_is_linear", joint7_is_linear_, false);
   ros::param::param<bool>("~joint8_is_linear", joint8_is_linear_, false);
+  ros::param::param<bool>("~round_command_angle", round_command_angle_, false);
 
   addr_.sin_family = AF_INET;
   addr_.sin_port = htons (10000);
@@ -120,15 +122,27 @@ void MelfaHW::write (void)
   send_buff_.BitMask = 0;
   send_buff_.IoData = 0;
 
-  // Rounding down to five decimal places -- otherwise small oscillations
-  // from ros_control around 0 seem to cause a H0117 error (power supply error
-  // in the brake) for CR800-D robot control with RV-4FRL-D
-  send_buff_.dat.jnt.j1 = round(cmd[0] * 10000.f) / 10000.f;
-  send_buff_.dat.jnt.j2 = round(cmd[1] * 10000.f) / 10000.f;
-  send_buff_.dat.jnt.j3 = round(cmd[2] * 10000.f) / 10000.f;
-  send_buff_.dat.jnt.j4 = round(cmd[3] * 10000.f) / 10000.f;
-  send_buff_.dat.jnt.j5 = round(cmd[4] * 10000.f) / 10000.f;
-  send_buff_.dat.jnt.j6 = round(cmd[5] * 10000.f) / 10000.f;
+  if (round_command_angle_)
+  {
+    // Rounding down to five decimal places -- otherwise small oscillations
+    // from ros_control around 0 seem to cause a H0117 error (power supply error
+    // in the brake) for CR800-D robot control with RV-4FRL-D
+    send_buff_.dat.jnt.j1 = round(cmd[0] * 10000.f) / 10000.f;
+    send_buff_.dat.jnt.j2 = round(cmd[1] * 10000.f) / 10000.f;
+    send_buff_.dat.jnt.j3 = round(cmd[2] * 10000.f) / 10000.f;
+    send_buff_.dat.jnt.j4 = round(cmd[3] * 10000.f) / 10000.f;
+    send_buff_.dat.jnt.j5 = round(cmd[4] * 10000.f) / 10000.f;
+    send_buff_.dat.jnt.j6 = round(cmd[5] * 10000.f) / 10000.f;
+  }
+  else
+  {
+    send_buff_.dat.jnt.j1 = cmd[0];
+    send_buff_.dat.jnt.j2 = cmd[1];
+    send_buff_.dat.jnt.j3 = cmd[2];
+    send_buff_.dat.jnt.j4 = cmd[3];
+    send_buff_.dat.jnt.j5 = cmd[4];
+    send_buff_.dat.jnt.j6 = cmd[5];
+  }
   if (joint7_is_linear_)
   {
     // Convert unit to mm
