@@ -19,6 +19,14 @@ Currently `melfa_description` contains the models of following MELFA robots.
 
 <img src="http://www.mitsubishielectric.co.jp/fa/products/rbt/robot/pmerit/common/img/src/s_7f.jpg" width="200x"> RV7FL
 
+# How to Install
+
+Use apt to install the packages.
+
+```
+apt install ros-kinetic-melfa-robot 
+```
+
 # Quick start with the loop back node
 
 `melfa_driver/melfa_driver_node` is the controller node, providing
