@@ -5,6 +5,9 @@ Changelog for package melfa_robot
 0.0.2 (2018-12-16)
 ------------------
 
+Forthcoming
+-----------
+
 0.0.1 (2018-12-14)
 ------------------
 * Switch to industrial-ci(`#16 <https://github.com/tork-a/melfa_robot/issues/16>`_)

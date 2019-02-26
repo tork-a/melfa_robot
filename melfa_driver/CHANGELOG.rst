@@ -7,6 +7,13 @@ Changelog for package melfa_driver
 * Add LICENSE and notification on source code(`#18 <https://github.com/tork-a/melfa_robot/issues/18>`_)
 * Contributors: Ryosuke Tajima
 
+Forthcoming
+-----------
+* Fix wrong install location(`#25 <https://github.com/tork-a/melfa_robot/issues/25>`_)
+ - Reserve test permissions
+* Fix minor typo(`#20 <https://github.com/tork-a/melfa_robot/issues/20>`_)
+* Contributors: Ryosuke Tajima, Wolf Vollprecht
+
 0.0.1 (2018-12-14)
 ------------------
 * Remove check.sh for eliminating catkin_lint warning
