@@ -7,8 +7,8 @@ Changelog for package melfa_description
 * Add LICENSE and notification on source code(`#18 <https://github.com/tork-a/melfa_robot/issues/18>`_ )
 * Contributors: Ryosuke Tajima
 
-Forthcoming
------------
+0.0.4 (2019-02-26)
+------------------
 
 0.0.1 (2018-12-14)
 ------------------

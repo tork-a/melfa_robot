@@ -7,8 +7,8 @@ Changelog for package melfa_driver
 * Add LICENSE and notification on source code(`#18 <https://github.com/tork-a/melfa_robot/issues/18>`_)
 * Contributors: Ryosuke Tajima
 
-Forthcoming
------------
+0.0.4 (2019-02-26)
+------------------
 * Fix wrong install location(`#25 <https://github.com/tork-a/melfa_robot/issues/25>`_)
  - Reserve test permissions
 * Fix minor typo(`#20 <https://github.com/tork-a/melfa_robot/issues/20>`_)
